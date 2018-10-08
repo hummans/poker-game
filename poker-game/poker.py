@@ -81,8 +81,8 @@ class Hand(object):
     def __str__(self):
         hand_str = (
             "Hand:\n"
-            "Card 1: {hand.card_1}\n"
-            "Card 2: {hand.card_2}\n"
+            "\tCard 1: {hand.card_1}\n"
+            "\tCard 2: {hand.card_2}\n"
         ).format(hand=self)
         return hand_str
 
@@ -120,17 +120,17 @@ class Community(object):
             state_name = Community.STATE_NAMES[self.state]
             community_str = (
                 "Community Cards:\n"
-                "State: {state}\n"
-                "HIDDEN"
+                "\tState: {state}\n"
+                "\tHIDDEN"
             ).format(state=state_name)
         elif self.state is Community.FLOP:
             state_name = Community.STATE_NAMES[self.state]
             community_str = (
                 "Community Cards:\n"
-                "State: {state}\n"
-                "{}\n"
-                "{}\n"
-                "{}"
+                "\tState: {state}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}"
             ).format(
                 state=state_name,
                 *self.flop)
@@ -138,11 +138,11 @@ class Community(object):
             state_name = Community.STATE_NAMES[self.state]
             community_str = (
                 "Community Cards:\n"
-                "State: {state}\n"
-                "{}\n"
-                "{}\n"
-                "{}\n"
-                "{}"
+                "\tState: {state}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}"
             ).format(
                 state=state_name,
                 *self.turn)
@@ -150,19 +150,19 @@ class Community(object):
             state_name = Community.STATE_NAMES[self.state]
             community_str = (
                 "Community Cards:\n"
-                "State: {state}\n"
-                "{}\n"
-                "{}\n"
-                "{}\n"
-                "{}\n"
-                "{}"
+                "\tState: {state}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}\n"
+                "\t{}"
             ).format(
                 state=state_name,
                 *self.river)
         else:
             community_str = "ERROR"
 
-        return community_str
+        return community_str + '\n'
 
 
 class PokerEngine(object):
@@ -196,35 +196,74 @@ class PokerEngine(object):
 
 class Player(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, name, buy_in):
+        self.name = name
+        self.value = buy_in
+        self.hand = None
+        self.bet = 0
+
+    def set_hand(self, hand):
+        self.hand = hand
+
+    def set_bet(self, bet):
+        self.bet = bet
+
+    def __str__(self):
+        player_str = (
+            "Player: {name}\n"
+            "\tValue: {value}\n"
+            "\tBet: {bet}\n"
+            "\tCards:\n"
+            "\t\t{hand.card_1}\n"
+            "\t\t{hand.card_2}\n"
+        ).format(
+            name=self.name,
+            value=self.value,
+            bet=self.bet,
+            hand=self.hand)
+        return player_str
 
 
 def play_game(num_players):
     pg = PokerEngine()
+    players = []
+    for i in range(num_players):
+        name = raw_input("What is your name?: ")
+        buy_in = int(raw_input("How much do you want to buy in? [500 | 1000]: "))
+        player = Player(name, buy_in)
+        players.append(player)
+
     hands = pg.deal_hands(num_players)
-    card = Card(12)
-    print(card)
-    hand = hands[0]
-    print(hand)
+    for player, hand in zip(players, hands):
+        player.set_hand(hand)
+
     community = pg.deal_community()
+
     print(community)
-    community.next()
-    print(community)
+    for player in players:
+        print(player)
+        move = raw_input("What is your move? [fold | check | call | bet | raise]: ")
+        if move == 'bet' or move == 'raise':
+            bet = int(raw_input("How much do you want to bet?: "))
+            player.set_bet(bet)
+        elif move == 'check':
+            continue
+
+    for i in range(3):
+        community.next()
+        print(community)
+        for player in players:
+            print(player)
+            move = raw_input("What is your move? [fold | check | call | bet | raise]: ")
+            if move == 'bet' or move == 'raise':
+                bet = int(raw_input("How much do you want to bet?: "))
+                player.set_bet(bet)
+            elif move == 'check':
+                continue
 
 
 def main():
-    num_players = 10
-    pg = PokerEngine()
-    hands = pg.deal_hands(num_players)
-    card = Card(12)
-    print(card)
-    hand = hands[0]
-    print(hand)
-    community = pg.deal_community()
-    print(community)
-    community.next()
-    print(community)
+    play_game(num_players=2)
 
 
 if __name__ == '__main__':
