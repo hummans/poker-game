@@ -28,7 +28,7 @@ if(__name__ == "__main__"):
         '-p', '--port',
         help="Port that the server will run on.",
         type=int,
-        default=8080)
+        default=4040)
     parser.add_argument(
         '-d', '--debug',
         help="Whether or not to run in debug mode.",
