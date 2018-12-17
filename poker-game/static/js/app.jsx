@@ -8,7 +8,12 @@ class App extends React.Component {
   render() {
 
     return (
-      <h1 className="center">Poker Game</h1>
+      <div>
+        <Title/>
+        <Community/>
+
+        <HandChooser card_left="Red_back" card_right="Red_back"/>
+      </div>
     );
   }
 }
