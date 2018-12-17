@@ -4,23 +4,25 @@ class Hand extends React.Component {
   
   constructor(props) {
     super(props);
-    this.card_left = Hand.to_url(props.card_left);
-    this.card_right = Hand.to_url(props.card_right);
+    this.state = {
+      card_left: props.card_left,
+      card_right: props.card_right
+    }
   }
 
-  static to_url(card_name){
-    const base_url = "/static/images/cards/";
-    const img_ext = ".jpg";
-    const card_url = base_url + card_name + img_ext;
-    return card_url;
+  set_cards(card_left, card_right){
+    this.setState(state => ({
+      card_left: card_left,
+      card_right: card_right
+    }));
   }
 
   render() {
 
     return (
       <div className="hand">
-        <img className="card" src={this.card_left}/>
-        <img className="card" src={this.card_right}/>
+        <Card card_name={this.props.card_left}/>
+        <Card card_name={this.props.card_right}/>
       </div>
     );
   }
