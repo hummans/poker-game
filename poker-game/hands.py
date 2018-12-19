@@ -19,7 +19,6 @@ D -> Diamond
 """
 CARD_STRINGS = [
     'AS',
-    '1S',
     '2S',
     '3S',
     '4S',
@@ -33,7 +32,6 @@ CARD_STRINGS = [
     'QS',
     'KS',
     'AH',
-    '1H',
     '2H',
     '3H',
     '4H',
@@ -47,7 +45,6 @@ CARD_STRINGS = [
     'QH',
     'KH',
     'AC',
-    '1C',
     '2C',
     '3C',
     '4C',
@@ -61,7 +58,6 @@ CARD_STRINGS = [
     'QC',
     'KC',
     'AD',
-    '1D',
     '2D',
     '3D',
     '4D',
