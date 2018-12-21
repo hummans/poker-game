@@ -12,64 +12,64 @@ A -> Ace
 T -> 10
 J -> Jack
 
-S -> Spades
-H -> Hearts
-C -> Clubs
-D -> Diamond
+s -> Spades
+h -> Hearts
+c -> Clubs
+d -> Diamond
 """
 CARD_STRINGS = [
-    'AS',
-    '2S',
-    '3S',
-    '4S',
-    '5S',
-    '6S',
-    '7S',
-    '8S',
-    '9S',
-    'TS',
-    'JS',
-    'QS',
-    'KS',
-    'AH',
-    '2H',
-    '3H',
-    '4H',
-    '5H',
-    '6H',
-    '7H',
-    '8H',
-    '9H',
-    'TH',
-    'JH',
-    'QH',
-    'KH',
-    'AC',
-    '2C',
-    '3C',
-    '4C',
-    '5C',
-    '6C',
-    '7C',
-    '8C',
-    '9C',
-    'TC',
-    'JC',
-    'QC',
-    'KC',
-    'AD',
-    '2D',
-    '3D',
-    '4D',
-    '5D',
-    '6D',
-    '7D',
-    '8D',
-    '9D',
-    'TD',
-    'JD',
-    'QD',
-    'KD'
+    'As',
+    '2s',
+    '3s',
+    '4s',
+    '5s',
+    '6s',
+    '7s',
+    '8s',
+    '9s',
+    'Ts',
+    'Js',
+    'Qs',
+    'Ks',
+    'Ah',
+    '2h',
+    '3h',
+    '4h',
+    '5h',
+    '6h',
+    '7h',
+    '8h',
+    '9h',
+    'Th',
+    'Jh',
+    'Qh',
+    'Kh',
+    'Ac',
+    '2c',
+    '3c',
+    '4c',
+    '5c',
+    '6c',
+    '7c',
+    '8c',
+    '9c',
+    'Tc',
+    'Jc',
+    'Qc',
+    'Kc',
+    'Ad',
+    '2d',
+    '3d',
+    '4d',
+    '5d',
+    '6d',
+    '7d',
+    '8d',
+    '9d',
+    'Td',
+    'Jd',
+    'Qd',
+    'Kd'
 ]
 
 
@@ -114,6 +114,39 @@ def get_ordinal(card):
         return str_to_int[value_str]
 
 
+def find_n_kickers(cards, used, n):
+    """
+    Finds the top n kickers that are not already used.
+
+    Args:
+        cards(list(str)): A list of card strings sorted by ordinal value.
+        used(set(str)): A set of strings that have been used.
+        n(int): The number of cards to find.
+
+    Returns:
+        list(str): A list with the top n cards that are not used.
+    """
+
+    kickers = []
+
+    # Start with the highest to lowest cards.
+    for card in cards:
+        # If the card has already been used, skip it.
+        if card in used:
+            continue
+
+        # Add the card.
+        kickers.append(card)
+
+        # If we hit the desired amount, stop.
+        if len(kickers) == n:
+            return kickers
+
+
+NUM_KICKERS_ONE_PAIR = 3
+NUM_KICKERS_TWO_PAIR = 1
+
+
 def find_pairs(hole_cards, community):
     """
     Determines if this hand has any pairs and if so, returns the pair and top
@@ -150,53 +183,54 @@ def find_pairs(hole_cards, community):
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
-    print(combined)
 
-    # Add each card to a set and if we have already seen it, then it is part
-    # of a pair.
+    # Contains card values we have seen for finding pairs.
     seen = set()
+
+    # Contains cards that have been used already for a pair.
     used = set()
+
+    # Add each card to a seem set and if we have already seen it, then it is
+    # part of a pair.
     for idx, card in enumerate(combined):
         value = get_ordinal(card)
         # If we have seen it, it is a pair with the one before it.
         if value in seen:
             prev_card = combined[idx - 1]
             pair = [card, prev_card]
+
+            # Add both cards to used set.
             used.add(prev_card)
             used.add(card)
+
+            # Initilialize pairs list to an empty list.
             if pairs is None:
                 pairs = []
+
+            # Add the pair.
             pairs.append(pair)
+
+            # If we found the top two pairs, stop.
             if len(pairs) == 2:
                 break
+        # Add value to seen, for future.
         seen.add(value)
 
     # Find top kickers.
     if pairs is None:
-        return pairs
-    elif len(pairs) == 1:
-        kickers = []
-        for card in combined:
-            if card in used:
-                continue
-            kickers.append(card)
-            if len(kickers) == 3:
-                pairs.append(kickers)
-                break
-    elif len(pairs) == 2:
-        kickers = []
-        for card in combined:
-            if card in used:
-                continue
-            kickers.append(card)
-            if len(kickers) == 1:
-                pairs.append(kickers)
-                break
-    elif len(pairs) == 3:
+        # If no pair is found, we do not need to find kickers.
         pass
+    elif len(pairs) == 1:
+        # One pair needs to find three kickers.
+        kickers = find_n_kickers(combined, used, NUM_KICKERS_ONE_PAIR)
+        pairs.append(kickers)
+    elif len(pairs) == 2:
+        # Two pair needs to find one kicker.
+        kickers = find_n_kickers(combined, used, NUM_KICKERS_TWO_PAIR)
+        pairs.append(kickers)
     else:
         raise RuntimeError(
-            "More than three pairs found. List: '{}'".format(pairs)
+            "More than two pairs found. List: '{}'".format(pairs)
         )
 
     return pairs
