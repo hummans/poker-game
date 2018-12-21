@@ -12,7 +12,7 @@ class App extends React.Component {
         <Title/>
         <Community/>
 
-        <HandChooser card_left="Red_back" card_right="Red_back"/>
+        <HandChooser card_left="back_red" card_right="back_red"/>
       </div>
     );
   }
