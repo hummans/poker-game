@@ -75,7 +75,8 @@ CARD_STRINGS = [
 
 def find_pairs(hand, community):
     """
-    Determines if this hand has any pairs and if so, returns the pairs.
+    Determines if this hand has any pairs and if so, returns the pair and top
+        three kicker or top two pairs and the top kicker.
 
     Note:
         When a three-of-a-kind happens, 3 pairs should be found all of the
@@ -87,8 +88,16 @@ def find_pairs(hand, community):
             cards shared in the community.
 
     Returns:
-        list(list(str)) | None: A list of strings representing the pairs found
-            or `None` representing that no pairs were found.
+        list(list(str)) | None: A list of lists of strings representing the
+            pairs found or `None` representing that no pairs were found.
+    Note:
+        The returns comes in three forms:
+            None: No pairs were found.
+            list( list(str,str), list(str,str,str)): The first list is the
+                pair, the second are the top three kickers.
+            list( list(str,str), list(str,str), list(str)): The first list is
+                the highest pair, the second is the second highest, and the
+                last list is the highest kicker.
     """
     return None
 
