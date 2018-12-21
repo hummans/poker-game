@@ -30,32 +30,33 @@ class TestHands(unittest.TestCase):
         Tests the find pairs function.
         """
         # Test no pairs.
-        hand = ['3S', '8D']
+        hole_cards = ['3S', '8D']
         community = ['2H', '7S', 'AS']
         pairs_corrrect = None
-        pairs = hands.find_pairs(hand, community)
+        pairs = hands.find_pairs(hole_cards, community)
         self.assertEqual(pairs, pairs_corrrect)
 
         # Test one pair.
-        hand = ['2S', '8D']
+        hole_cards = ['2S', '8D']
         community = ['2H', '7S', 'AS']
         pairs_corrrect = [set(['2S', '2H']), set(['8D', '7S', 'AS'])]
-        pairs = hands.find_pairs(hand, community)
+        pairs = hands.find_pairs(hole_cards, community)
         pairs = TestHands.to_set(pairs)
         self.assertEqual(pairs, pairs_corrrect)
+
         # Test two pair.
-        hand = ['2S', '7D']
+        hole_cards = ['2S', '7D']
         community = ['2H', '7S', 'AS']
         pairs_corrrect = [set(['7D', '7S']), set(['2S', '2H']), set(['AS'])]
-        pairs = hands.find_pairs(hand, community)
+        pairs = hands.find_pairs(hole_cards, community)
         pairs = TestHands.to_set(pairs)
         self.assertEqual(pairs, pairs_corrrect)
 
         # Test three pair.
-        hand = ['2S', '7D']
+        hole_cards = ['2S', '7D']
         community = ['2H', '7S', 'AS', '6S', 'AC']
         pairs_corrrect = [set(['AS', 'AC']), set(['7D', '7S']), set(['6S'])]
-        pairs = hands.find_pairs(hand, community)
+        pairs = hands.find_pairs(hole_cards, community)
         pairs = TestHands.to_set(pairs)
         self.assertEqual(pairs, pairs_corrrect)
 
