@@ -2,6 +2,10 @@
 
 class Card extends React.Component {
   
+  static get BACK_DEFAULT() {
+    return 'back_red';
+  }
+
   constructor(props) {
     super(props);
   }

@@ -12,7 +12,7 @@ class App extends React.Component {
         <Title/>
         <Community/>
 
-        <HandChooser card_left="back_red" card_right="back_red"/>
+        <HandChooser card_left={Card.BACK_DEFAULT} card_right={Card.BACK_DEFAULT}/>
       </div>
     );
   }

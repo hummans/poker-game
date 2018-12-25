@@ -1,20 +1,16 @@
 'use strict';
 
-const BACK_RED = 'back_red';
-const BACK_BLUE = 'back_blue';
-const DEFAULT_BACK = BACK_RED;
-
 class Community extends React.Component {
   
   constructor(props) {
     super(props);
 
     this.state = {
-      card_zero: DEFAULT_BACK,
-      card_one: DEFAULT_BACK,
-      card_two: DEFAULT_BACK,
-      card_three: DEFAULT_BACK,
-      card_four: DEFAULT_BACK
+      card_zero: Card.BACK_DEFAULT,
+      card_one: Card.BACK_DEFAULT,
+      card_two: Card.BACK_DEFAULT,
+      card_three: Card.BACK_DEFAULT,
+      card_four: Card.BACK_DEFAULT
     }
 
     this.handle_button = this.handle_button.bind(this);
