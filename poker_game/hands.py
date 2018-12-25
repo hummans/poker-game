@@ -236,6 +236,32 @@ def find_pairs(hole_cards, community):
     return pairs
 
 
+def find_three_of_a_kind(hole_cards, community):
+    """
+    Finds a three-of-a-kind and two best kickers. Returns `None` if no three of
+        a kind is found.
+
+    Note:
+        Assumes that there is no four-of-a-kind or full-house possible.
+
+    Args:
+        hand(list(str)): A list of two strings representing two cards.
+        community(list(str)): A list of 0, 3, 4, or 5 strings representing the
+            cards shared in the community.
+
+    Returns:
+        list(list(str)) | None: A list of lists of strings representing the
+            three-of-a-kind found or `None` representing that no
+            three-of-a-kind was found.
+    Note:
+        The returns comes in two forms:
+            None: No three-of-a-kind was found.
+            list( list(str,str,str), list(str,str)): The first list is the
+                three-of-a-kind, the second is the top two kickers.
+    """
+    return None
+
+
 def main():
     hole_cards = ['2S', '7D']
     community = ['2H', '7S', 'AS']
