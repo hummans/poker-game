@@ -236,6 +236,9 @@ def find_pairs(hole_cards, community):
     return pairs
 
 
+NUM_KICKERS_THREE_OF_A_KIND = 2
+
+
 def find_three_of_a_kind(hole_cards, community):
     """
     Finds a three-of-a-kind and two best kickers. Returns `None` if no three of
@@ -259,7 +262,61 @@ def find_three_of_a_kind(hole_cards, community):
             list( list(str,str,str), list(str,str)): The first list is the
                 three-of-a-kind, the second is the top two kickers.
     """
-    return None
+    # Initialize hand to empty list.
+    hand = []
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
+
+    # Map of card value to count seen.
+    card_count = {}
+
+    # Contains cards that have been already used in the hand.
+    used = set()
+
+    # Count each card into card count and look for three-of-a-kind.
+    for idx, card in enumerate(combined):
+        # Grab the value of the card ignoring suit.
+        value = get_ordinal(card)
+
+        # If the value is not in the map initialize it to 0.
+        if value not in card_count:
+            card_count[value] = 0
+
+        # Increment count of this value of card.
+        card_count[value] += 1
+
+        # Checking if we found the three-of-a-kind.
+        if card_count[value] == 3:
+            start = idx - 2
+            end = idx + 1
+
+            # Because it is sorted we can grab the last three cards seen.
+            three_of_a_kind = combined[start:end]
+
+            # Add three-of-a-kind to used set.
+            used.update(three_of_a_kind)
+
+            # Add three-of-a-kind to hand.
+            hand.append(three_of_a_kind)
+            break
+
+    # No three-of-a-kind was found, return None.
+    if not hand:
+        return None
+
+    # We have found a three-of-a-kind, we find the top two kickers.
+    kickers = find_n_kickers(combined, used, NUM_KICKERS_THREE_OF_A_KIND)
+
+    # Add the kickers to the hand.
+    hand.append(kickers)
+
+    return hand
 
 
 def main():
