@@ -60,6 +60,25 @@ class TestHands(unittest.TestCase):
         pairs = TestHands.to_set(pairs)
         self.assertEqual(pairs, pairs_corrrect)
 
+    def test_find_three_of_a_kind(self):
+        """
+        Tests the find three-of-a-kind function.
+        """
+        # Test no three-of-a-kind.
+        hole_cards = ['3S', '3D']
+        community = ['2H', '7C', 'AS']
+        hand_correct = None
+        hand = hands.find_three_of_a_kind(hole_cards, community)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one three-of-a-kind.
+        hole_cards = ['3S', '3D']
+        community = ['2H', '3C', 'AS']
+        hand_correct = [set(['3S', '3D', '3C']), set(['2H', 'AS'])]
+        hand = hands.find_three_of_a_kind(hole_cards, community)
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
 
 if __name__ == '__main__':
     unittest.main()
