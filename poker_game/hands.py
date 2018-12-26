@@ -462,6 +462,7 @@ def find_flush(hole_cards, community):
     # no suit has 5 cards
     return None
 
+
 def main():
     hole_cards = ['TS', '5S']
     community = ['AS', 'JS', 'KS', 'AH', '9S']
