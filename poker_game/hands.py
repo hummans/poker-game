@@ -349,40 +349,46 @@ def find_straight(hole_cards, community):
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
 
-    #previous card value
+    # previous card value
     value = 0
 
-    #iterate from highest card to lowest
+    # iterate from highest card to lowest
     for card in combined:
-        #add the card to the hand
+        # add the card to the hand
         hand.append(card)
-        #first iteration just set as previous card value then loop
+        # first iteration just set as previous card value then continue
         if value != 0:
-            #if the current card is 1 smaller than the last card
+            # if the current card is 1 smaller than the last card
             if get_ordinal(card) == value - 1:
-                #if the hand is already 5 cards then we are done
+                # if the hand is already 5 cards then we are done
                 if len(hand) == 5:
                     return hand
-            #if the last card is the same value as the current card
+                # edge case of straight 5 high
+                elif len(hand) == 4 and get_ordinal(card) == 2:
+                    # when the cards are 5 4 3 2 check if there is an ace
+                    if get_ordinal(combined[0]) == 14:
+                        hand.append(combined[0])
+                        return hand
+            # if the last card is the same value as the current card
             elif get_ordinal(card) == value:
-                #delete the current card and move on
+                # delete the current card and move on
                 hand.pop()
                 continue
-            #the card has a gap from the previous card
+            # the card has a gap from the previous card
             else:
-                #restart the hand
-                hand = []
-        #set the previous card value then back to top of loop
+                # restart the hand
+                hand = [card]
+        # set the previous card value then back to top of loop
         value = get_ordinal(card)
 
-    #if there is no straight found, return None
+    # if there is no straight found, return None
     return None
 
 def main():
-    hole_cards = ['2S', '7D']
-    community = ['2H', '7S', 'AS']
+    hole_cards = ['TS', 'QD']
+    community = ['AC', 'JS', 'KS', 'AH', '9H']
 
-    print(find_pairs(hole_cards, community))
+    print(find_straight(hole_cards, community))
 
 
 if __name__ == '__main__':
