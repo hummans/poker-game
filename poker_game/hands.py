@@ -463,11 +463,53 @@ def find_flush(hole_cards, community):
     return None
 
 
+def find_straight_flush(hole_cards, community):
+    """
+        Finds a straight flush. Returns `None` if no flush is found.
+
+        Args:
+            hole_cards(list(str)): A list of two strings representing two cards.
+            community(list(str)): A list of 0, 3, 4, or 5 strings representing the
+                cards shared in the community.
+
+        Returns:
+            list(list(str)) | None: A list of lists of strings representing the
+                straight flush or `None` representing that no straight flush was found.
+        Note:
+            The returns comes in two forms:
+                None: No straight flush was found.
+                list( list(str,str,str,str,str)): The highest straight flush found.
+    """
+    # create lists to sort each suit, hand[0] is list of diamonds, etc.
+    hand = [[], [], [], []]
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
+
+    # iterate from highest card to lowest
+    for card in combined:
+        # find the suit of the card
+        suit = get_suit(card)
+        # add card to list of card of that suit
+        hand[suit].append(card)
+
+    # now that all the suits are sorted, find a straight in the suit
+    for suits in hand:
+        # only 1 suit can have more than 5 cards, so find a straight in that suit
+        if len(suits) >= 5:
+            return find_straight(suits, [])
+
+
 def main():
-    hole_cards = ['TS', '5S']
+    hole_cards = ['TS', 'QS']
     community = ['AS', 'JS', 'KS', 'AH', '9S']
 
-    print(find_flush(hole_cards, community))
+    print(find_straight_flush(hole_cards, community))
 
 
 if __name__ == '__main__':
