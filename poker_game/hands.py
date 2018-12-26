@@ -85,6 +85,17 @@ def to_value(card):
     """
     return card[0]
 
+def to_suit(card):
+    """
+        Returns the suit of the card.
+
+        Args:
+            card(str): A two character string with value then suit.
+
+        Returns:
+            str: The second character of the string.
+        """
+    return card[1].lower()
 
 def get_ordinal(card):
     """
@@ -113,6 +124,29 @@ def get_ordinal(card):
     else:
         return str_to_int[value_str]
 
+def get_suit(card):
+    """
+        Converts suit to numerical value.
+        Diamond is 1
+        Club is 2
+        Heart is 3
+        Spade is 4
+
+        Args:
+            card(str): A two character string with value then suit.
+
+        Returns:
+            int: The suit of the card in numerical form.
+        """
+    value_suit = to_suit(card)
+    suit_to_int = {
+        'd': 1,
+        'c': 2,
+        'h': 3,
+        's': 4
+    }
+
+    return suit_to_int[value_suit]
 
 def find_n_kickers(cards, used, n):
     """
@@ -383,6 +417,19 @@ def find_straight(hole_cards, community):
 
     # if there is no straight found, return None
     return None
+
+def find_flush(hole_cards, community):
+
+    # Initialize hand to empty list.
+    hand = []
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
 
 def main():
     hole_cards = ['TS', 'QD']
