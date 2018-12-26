@@ -318,6 +318,45 @@ def find_three_of_a_kind(hole_cards, community):
 
     return hand
 
+def find_straight(hole_cards, community):
+
+    # Initialize hand to empty list.
+    hand = []
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
+
+    #previous card value
+    value = 0
+
+    #iterate from highest card to lowest
+    for card in combined:
+        #add the card to the hand
+        hand.append(card)
+        #first iteration just set as previous card value then loop
+        if value != 0:
+            #if the current card is 1 smaller than the last card
+            if get_ordinal(card) == value - 1:
+                #if the hand is already 5 cards then we are done
+                if len(hand) == 5:
+                    return hand
+            #if the last card is the same value as the current card
+            elif get_ordinal(card) == value:
+                #delete the current card and move on
+                hand.pop()
+                continue
+            #the card has a gap from the previous card
+            else:
+                #restart the hand
+                hand = []
+        #set the previous card value then back to top of loop
+        value = get_ordinal(card)
+
 
 def main():
     hole_cards = ['2S', '7D']
