@@ -248,7 +248,7 @@ def find_three_of_a_kind(hole_cards, community):
         Assumes that there is no four-of-a-kind or full-house possible.
 
     Args:
-        hand(list(str)): A list of two strings representing two cards.
+        hole_cards(list(str)): A list of two strings representing two cards.
         community(list(str)): A list of 0, 3, 4, or 5 strings representing the
             cards shared in the community.
 
@@ -319,6 +319,24 @@ def find_three_of_a_kind(hole_cards, community):
     return hand
 
 def find_straight(hole_cards, community):
+    """
+        Finds a straight. Returns `None` if no straight is found.
+
+
+        Args:
+            hole_cards(list(str)): A list of two strings representing two cards.
+            community(list(str)): A list of 0, 3, 4, or 5 strings representing the
+                cards shared in the community.
+
+        Returns:
+            list(list(str)) | None: A list of lists of strings representing the
+                straight found or `None` representing that no
+                straight was found.
+        Note:
+            The returns comes in two forms:
+                None: No straight was found.
+                list( list(str,str,str), list(str,str)): The highest straight found.
+        """
 
     # Initialize hand to empty list.
     hand = []
@@ -357,6 +375,8 @@ def find_straight(hole_cards, community):
         #set the previous card value then back to top of loop
         value = get_ordinal(card)
 
+    #if there is no straight found, return None
+    return None
 
 def main():
     hole_cards = ['2S', '7D']
