@@ -468,6 +468,89 @@ def find_flush(hole_cards, community):
     return None
 
 
+NUM_KICKERS_FOUR_OF_A_KIND = 1
+
+
+def find_four_of_a_kind(hole_cards, community):
+    """
+    Finds a four-of-a-kind and two best kickers. Returns `None` if no four of
+        a kind is found.
+
+    Note:
+        Assumes that there is no four-of-a-kind or full-house possible.
+
+    Args:
+        hole_cards(list(str)): A list of two strings representing two cards.
+        community(list(str)): A list of 0, 3, 4, or 5 strings representing the
+            cards shared in the community.
+
+    Returns:
+        list(list(str)) | None: A list of lists of strings representing the
+            four-of-a-kind found or `None` representing that no
+            four-of-a-kind was found.
+    Note:
+        The returns comes in two forms:
+            None: No four-of-a-kind was found.
+            list( list(str,str,str), list(str,str)): The first list is the
+                four-of-a-kind, the second is the top two kickers.
+    """
+    # Initialize hand to empty list.
+    hand = []
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
+
+    # Map of card value to count seen.
+    card_count = {}
+
+    # Contains cards that have been already used in the hand.
+    used = set()
+
+    # Count each card into card count and look for four-of-a-kind.
+    for idx, card in enumerate(combined):
+        # Grab the value of the card ignoring suit.
+        value = get_ordinal(card)
+
+        # If the value is not in the map initialize it to 0.
+        if value not in card_count:
+            card_count[value] = 0
+
+        # Increment count of this value of card.
+        card_count[value] += 1
+
+        # Checking if we found the four-of-a-kind.
+        if card_count[value] == 4:
+            start = idx - 3
+            end = idx + 1
+
+            # Because it is sorted we can grab the last four cards seen.
+            three_of_a_kind = combined[start:end]
+
+            # Add four-of-a-kind to used set.
+            used.update(three_of_a_kind)
+
+            # Add four-of-a-kind to hand.
+            hand.append(three_of_a_kind)
+            break
+
+    # No four-of-a-kind was found, return None.
+    if not hand:
+        return None
+
+    # We have found a four-of-a-kind, we find the top two kickers.
+    kickers = find_n_kickers(combined, used, NUM_KICKERS_FOUR_OF_A_KIND)
+
+    # Add the kickers to the hand.
+    hand.append(kickers)
+
+    return hand
+
+
 def find_straight_flush(hole_cards, community):
     """
         Finds a straight flush. Returns `None` if no flush is found.
