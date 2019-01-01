@@ -141,6 +141,25 @@ class TestHands(unittest.TestCase):
         hand = TestHands.to_set(hand)
         self.assertEqual(hand, hand_correct)
 
+    def test_find_four_of_a_kind(self):
+        """
+        Tests the find four-of-a-kind function.
+        """
+        # Test no four-of-a-kind.
+        hole_cards = ['3s', '3d']
+        community = ['2h', '7c', 'As']
+        hand_correct = None
+        hand = hands.find_four_of_a_kind(hole_cards, community)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one four-of-a-kind.
+        hole_cards = ['3s', '3d']
+        community = ['3h', '3c', 'As']
+        hand_correct = [set(['3s', '3d', '3c', '3h']), set(['As'])]
+        hand = hands.find_four_of_a_kind(hole_cards, community)
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
     def test_find_straight_flush(self):
         """
         Tests the find straight-flush function.
