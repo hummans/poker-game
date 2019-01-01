@@ -85,6 +85,7 @@ def to_value(card):
     """
     return card[0]
 
+
 def to_suit(card):
     """
         Returns the suit of the card.
@@ -96,6 +97,7 @@ def to_suit(card):
             str: The second character of the string.
         """
     return card[1].lower()
+
 
 def get_ordinal(card):
     """
@@ -123,6 +125,7 @@ def get_ordinal(card):
         return int(value_str)
     else:
         return str_to_int[value_str]
+
 
 def get_suit(card):
     """
@@ -360,9 +363,10 @@ def find_straight(hole_cards, community):
 
 
         Args:
-            hole_cards(list(str)): A list of two strings representing two cards.
-            community(list(str)): A list of 0, 3, 4, or 5 strings representing the
-                cards shared in the community.
+            hole_cards(list(str)): A list of two strings representing two
+                cards.
+            community(list(str)): A list of 0, 3, 4, or 5 strings representing
+                the cards shared in the community.
 
         Returns:
             list(list(str)) | None: A list of lists of strings representing the
@@ -426,9 +430,10 @@ def find_flush(hole_cards, community):
         Finds a flush. Returns `None` if no flush is found.
 
         Args:
-            hole_cards(list(str)): A list of two strings representing two cards.
-            community(list(str)): A list of 0, 3, 4, or 5 strings representing the
-                cards shared in the community.
+            hole_cards(list(str)): A list of two strings representing two
+                cards.
+            community(list(str)): A list of 0, 3, 4, or 5 strings representing
+                the cards shared in the community.
 
         Returns:
             list(list(str)) | None: A list of lists of strings representing the
@@ -468,17 +473,20 @@ def find_straight_flush(hole_cards, community):
         Finds a straight flush. Returns `None` if no flush is found.
 
         Args:
-            hole_cards(list(str)): A list of two strings representing two cards.
-            community(list(str)): A list of 0, 3, 4, or 5 strings representing the
-                cards shared in the community.
+            hole_cards(list(str)): A list of two strings representing two
+                cards.
+            community(list(str)): A list of 0, 3, 4, or 5 strings representing
+                the cards shared in the community.
 
         Returns:
             list(list(str)) | None: A list of lists of strings representing the
-                straight flush or `None` representing that no straight flush was found.
+                straight flush or `None` representing that no straight flush
+                was found.
         Note:
             The returns comes in two forms:
                 None: No straight flush was found.
-                list( list(str,str,str,str,str)): The highest straight flush found.
+                list( list(str,str,str,str,str)): The highest straight flush
+                    found.
     """
     # create lists to sort each suit, hand[0] is list of diamonds, etc.
     hand = [[], [], [], []]
@@ -500,7 +508,8 @@ def find_straight_flush(hole_cards, community):
 
     # now that all the suits are sorted, find a straight in the suit
     for suits in hand:
-        # only 1 suit can have more than 5 cards, so find a straight in that suit
+        # only 1 suit can have more than 5 cards, so find a straight in that
+        # suit
         if len(suits) >= 5:
             return find_straight(suits, [])
 
