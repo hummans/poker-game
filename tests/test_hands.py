@@ -155,7 +155,23 @@ class TestHands(unittest.TestCase):
         # Test one full-house.
         hole_cards = ['3s', '3d']
         community = ['3h', '2c', '2s']
-        hand_correct = [set(['3s', '3d', '3c']), set(['2s', '2c'])]
+        hand_correct = [set(['3s', '3d', '3h']), set(['2s', '2c'])]
+        hand = hands.find_full_house(hole_cards, community)
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one full-house, two three-of-a-kind.
+        hole_cards = ['3s', '3d']
+        community = ['3h', '2c', '4d', '4s', '4c']
+        hand_correct = [set(['4s', '4d', '4c']), set(['3s', '3d'])]
+        hand = hands.find_full_house(hole_cards, community)
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one full-house, two pairs.
+        hole_cards = ['3s', '3d']
+        community = ['3h', '2c', '2s', '4s', '4c']
+        hand_correct = [set(['3s', '3d', '3h']), set(['4s', '4c'])]
         hand = hands.find_full_house(hole_cards, community)
         hand = TestHands.to_set(hand)
         self.assertEqual(hand, hand_correct)
