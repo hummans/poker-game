@@ -79,6 +79,33 @@ class TestHands(unittest.TestCase):
         hand = TestHands.to_set(hand)
         self.assertEqual(hand, hand_correct)
 
+    def test_find_straight(self):
+        """
+        Tests the find straight function.
+        """
+        # Test no straight.
+        hole_cards = ['3s', '3d']
+        community = ['2h', '7c', 'As']
+        hand_correct = None
+        hand = hands.find_straight(hole_cards, community)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one straight.
+        hole_cards = ['4s', '2d']
+        community = ['5h', '3c', '6s']
+        hand_correct = [set(['5h', '4s', '3c', '2d', '6s'])]
+        hand = [hands.find_straight(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test ace straight.
+        hole_cards = ['4s', '2d']
+        community = ['5h', '3c', 'As']
+        hand_correct = [set(['5h', '4s', '3c', '2d', 'As'])]
+        hand = [hands.find_straight(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
 
 if __name__ == '__main__':
     unittest.main()
