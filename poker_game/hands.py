@@ -468,6 +468,66 @@ def find_flush(hole_cards, community):
     return None
 
 
+def find_full_house(hole_cards, community):
+    """
+    Finds a full-house. Returns `None` if no full-house is found.
+
+    Args:
+        hole_cards(list(str)): A list of two strings representing two cards.
+        community(list(str)): A list of 0, 3, 4, or 5 strings representing the
+            cards shared in the community.
+
+    Returns:
+        list(list(str)) | None: A list of lists of strings representing the
+            full-house found or `None` representing that no full-house was
+            found.
+    Note:
+        The returns comes in two forms:
+            None: No full-house was found.
+            list( list(str,str,str), list(str,str) ): The first list is the
+                three-of-a-kind, the second is the top pair.
+    """
+    # Initialize hand to empty list.
+    hand = []
+
+    # Combine hole_cards and community because does not matter where they are
+    # from.
+    hole_cards.extend(community)
+    combined = hole_cards
+
+    # Sort the cards from highest to lowest.
+    combined.sort(reverse=True, key=get_ordinal)
+
+    # Find three-of-a-kind.
+    three_of_a_kind_hand = find_three_of_a_kind(combined, [])
+
+    # If there is not a three-of-a-kind, a full-house is not possible.
+    if three_of_a_kind_hand is None:
+        return None
+
+    # Get the list representing the three-of-a-kind.
+    three_of_a_kind = three_of_a_kind_hand[0]
+
+    # Remove the used cards from the available cards.
+    for card in three_of_a_kind:
+        combined.remove(card)
+
+    # Find pair.
+    pair_hand = find_pairs(combined, [])
+
+    # If there is not a pair, a full-house is not possible.
+    if pair_hand is None:
+        return None
+
+    # Get the list representing the top pair.
+    pair = pair_hand[0]
+
+    # Format the full-house.
+    hand = [three_of_a_kind, pair]
+
+    return hand
+
+
 NUM_KICKERS_FOUR_OF_A_KIND = 1
 
 
