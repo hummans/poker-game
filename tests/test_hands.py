@@ -141,6 +141,41 @@ class TestHands(unittest.TestCase):
         hand = TestHands.to_set(hand)
         self.assertEqual(hand, hand_correct)
 
+    def test_find_straight_flush(self):
+        """
+        Tests the find straight-flush function.
+        """
+        # Test no straight_flush.
+        hole_cards = ['3s', '3d']
+        community = ['2h', '7c', 'As']
+        hand_correct = None
+        hand = hands.find_straight_flush(hole_cards, community)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one straight_flush.
+        hole_cards = ['3s', '5s']
+        community = ['2s', '4s', 'As']
+        hand_correct = [set(['5s', '4s', '3s', '2s', 'As'])]
+        hand = [hands.find_straight_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test six card straight_flush.
+        hole_cards = ['Ts', '9s']
+        community = ['7s', '8s', '5s', '6s', 'Jd']
+        hand_correct = [set(['Ts', '9s', '8s', '7s', '6s'])]
+        hand = [hands.find_straight_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test seven card straight_flush.
+        hole_cards = ['Ts', '9s']
+        community = ['7s', '8s', '5s', '6s', 'Js']
+        hand_correct = [set(['Js', 'Ts', '9s', '8s', '7s'])]
+        hand = [hands.find_straight_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
 
 if __name__ == '__main__':
     unittest.main()
