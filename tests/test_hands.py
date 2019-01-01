@@ -106,6 +106,41 @@ class TestHands(unittest.TestCase):
         hand = TestHands.to_set(hand)
         self.assertEqual(hand, hand_correct)
 
+    def test_find_flush(self):
+        """
+        Tests the find flush function.
+        """
+        # Test no flush.
+        hole_cards = ['3s', '3d']
+        community = ['2h', '7c', 'As']
+        hand_correct = None
+        hand = hands.find_flush(hole_cards, community)
+        self.assertEqual(hand, hand_correct)
+
+        # Test one flush.
+        hole_cards = ['3s', '8s']
+        community = ['2s', '7s', 'As']
+        hand_correct = [set(['As', '8s', '7s', '3s', '2s'])]
+        hand = [hands.find_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test six card flush.
+        hole_cards = ['3s', '8s']
+        community = ['2s', '7s', 'As', '9s', 'Jd']
+        hand_correct = [set(['As', '9s', '8s', '7s', '3s'])]
+        hand = [hands.find_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
+        # Test seven card flush.
+        hole_cards = ['3s', '8s']
+        community = ['2s', '7s', 'As', '9s', 'Js']
+        hand_correct = [set(['As', 'Js', '9s', '8s', '7s'])]
+        hand = [hands.find_flush(hole_cards, community)]
+        hand = TestHands.to_set(hand)
+        self.assertEqual(hand, hand_correct)
+
 
 if __name__ == '__main__':
     unittest.main()
