@@ -657,6 +657,35 @@ def find_straight_flush(hole_cards, community):
             return find_straight(suits, [])
 
 
+def hand_comparator(combined_a, combined_b):
+    """
+    Compares two hands.
+
+    Args:
+        combined(list(str)): A list of seven cards representing hole_cards
+            combined with the community. Assumes sorted high to low.
+
+    Returns:
+        int: Represents the difference in strength between the two hands.
+
+    Note:
+        The returns has three possibilities:
+            -1 : Meaning the second hand is stronger.
+            0 : Meaning the hands are equal in strength.
+            1 : Meaning the the first hand is stronger.
+        Acts like `return b - a`.
+
+    """
+    pass
+
+
+def comparator(hole_cards_zero, hole_cards_one, community):
+    """
+    Compares two sets of hole cards and sees which is stronger.
+    """
+    pass
+
+
 def main():
     hole_cards = ['TS', 'QS']
     community = ['AS', 'JS', 'KS', 'AH', '9S']
