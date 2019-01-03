@@ -216,8 +216,9 @@ def find_pairs(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -305,8 +306,9 @@ def find_three_of_a_kind(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -383,8 +385,9 @@ def find_straight(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -448,8 +451,9 @@ def find_flush(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -492,8 +496,9 @@ def find_full_house(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -559,8 +564,9 @@ def find_four_of_a_kind(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
@@ -636,8 +642,9 @@ def find_straight_flush(hole_cards, community):
 
     # Combine hole_cards and community because does not matter where they are
     # from.
-    hole_cards.extend(community)
-    combined = hole_cards
+    combined = []
+    combined.extend(hole_cards)
+    combined.extend(community)
 
     # Sort the cards from highest to lowest.
     combined.sort(reverse=True, key=get_ordinal)
