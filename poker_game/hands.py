@@ -697,6 +697,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     best_zero = find_straight_flush(hole_cards_zero, community)
     best_one = find_straight_flush(hole_cards_one, community)
 
+    # check if both hands have a straight flush
     if best_zero is not None and best_one is not None:
         card_zero = get_ordinal(best_zero[0])
         card_one = get_ordinal(best_one[0])
@@ -705,10 +706,12 @@ def comparator(hole_cards_zero, hole_cards_one, community):
         elif card_one < card_zero:
             return 1
         else:
-            print("sf")
+            # both hands are basically same
             return 0
+    # if first player has straight flush but second does not
     if best_zero is None and best_one is not None:
         return -1
+    # if second player has straight flush but first does not
     elif best_one is None and best_zero is not None:
         return 1
 
@@ -717,8 +720,6 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     """
     best_zero = find_four_of_a_kind(hole_cards_zero, community)
     best_one = find_four_of_a_kind(hole_cards_one, community)
-    print(best_zero)
-    print(best_one)
     if best_zero is not None and best_one is not None:
         card_zero = get_ordinal(best_zero[1][0])
         card_one = get_ordinal(best_one[1][0])
@@ -727,7 +728,6 @@ def comparator(hole_cards_zero, hole_cards_one, community):
         elif card_one < card_zero:
             return 1
         else:
-            print("q")
             return 0
     if best_zero is None and best_one is not None:
         return -1
@@ -754,19 +754,88 @@ def comparator(hole_cards_zero, hole_cards_one, community):
             elif card_one < card_zero:
                 return 1
             else:
-                print("fh")
                 return 0
     if best_zero is None and best_one is not None:
         return -1
     elif best_one is None and best_zero is not None:
         return 1
 
+    """
+    flush
+    """
+    best_zero = find_flush(hole_cards_zero, community)
+    best_one = find_flush(hole_cards_one, community)
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[0])
+        card_one = get_ordinal(best_one[0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
+
+    """
+    straight
+    """
+    best_zero = find_straight(hole_cards_zero, community)
+    best_one = find_straight(hole_cards_one, community)
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[0])
+        card_one = get_ordinal(best_one[0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
+
+    """
+    three of a kind
+    """
+    best_zero = find_three_of_a_kind(hole_cards_zero, community)
+    best_one = find_three_of_a_kind(hole_cards_one, community)
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[0][0])
+        card_one = get_ordinal(best_one[0][0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            card_zero = get_ordinal(best_zero[1][0])
+            card_one = get_ordinal(best_one[1][0])
+            if card_one > card_zero:
+                return -1
+            elif card_one < card_zero:
+                return 1
+            else:
+                card_zero = get_ordinal(best_zero[1][1])
+                card_one = get_ordinal(best_one[1][1])
+                if card_one > card_zero:
+                    return -1
+                elif card_one < card_zero:
+                    return 1
+                else:
+                    return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
 
 
 def main():
-    hole_cards_zero = ['5S', '5H']
-    hole_cards_one = ['4S', '4H']
-    community = ['AS', 'AC', 'AD', '6C', '8D']
+    hole_cards_zero = ['2C', 'KH']
+    hole_cards_one = ['2D', '9C']
+    community = ['2S', '2H', '7H', '4C', '5D']
 
     print(comparator(hole_cards_zero, hole_cards_one, community))
 
