@@ -551,8 +551,8 @@ def find_four_of_a_kind(hole_cards, community):
     Note:
         The returns comes in two forms:
             None: No four-of-a-kind was found.
-            list( list(str,str,str), list(str,str)): The first list is the
-                four-of-a-kind, the second is the top two kickers.
+            list( list(str,str,str,str), list(str)): The first list is the
+                four-of-a-kind, the second is the top kicker.
     """
     # Initialize hand to empty list.
     hand = []
@@ -683,14 +683,85 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     """
     Compares two sets of hole cards and sees which is stronger.
     """
-    pass
+
+    """
+    straight flush
+    """
+    best_zero = find_straight_flush(hole_cards_zero, community)
+    best_one = find_straight_flush(hole_cards_one, community)
+
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[0])
+        card_one = get_ordinal(best_one[0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            print("sf")
+            return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
+
+    """
+    quads
+    """
+    best_zero = find_four_of_a_kind(hole_cards_zero, community)
+    best_one = find_four_of_a_kind(hole_cards_one, community)
+    print(best_zero)
+    print(best_one)
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[1][0])
+        card_one = get_ordinal(best_one[1][0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            print("q")
+            return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
+
+    """
+    full house
+    """
+    best_zero = find_full_house(hole_cards_zero, community)
+    best_one = find_full_house(hole_cards_one, community)
+    if best_zero is not None and best_one is not None:
+        card_zero = get_ordinal(best_zero[0][0])
+        card_one = get_ordinal(best_one[0][0])
+        if card_one > card_zero:
+            return -1
+        elif card_one < card_zero:
+            return 1
+        else:
+            card_zero = get_ordinal(best_zero[1][0])
+            card_one = get_ordinal(best_one[1][0])
+            if card_one > card_zero:
+                return -1
+            elif card_one < card_zero:
+                return 1
+            else:
+                print("fh")
+                return 0
+    if best_zero is None and best_one is not None:
+        return -1
+    elif best_one is None and best_zero is not None:
+        return 1
+
 
 
 def main():
-    hole_cards = ['TS', 'QS']
-    community = ['AS', 'JS', 'KS', 'AH', '9S']
+    hole_cards_zero = ['5S', '5H']
+    hole_cards_one = ['4S', '4H']
+    community = ['AS', 'AC', 'AD', '6C', '8D']
 
-    print(find_straight_flush(hole_cards, community))
+    print(comparator(hole_cards_zero, hole_cards_one, community))
 
 
 if __name__ == '__main__':
