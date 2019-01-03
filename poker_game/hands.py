@@ -699,6 +699,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
 
     # check if both hands have a straight flush
     if best_zero is not None and best_one is not None:
+        # find how high straight flush is
         card_zero = get_ordinal(best_zero[0])
         card_one = get_ordinal(best_one[0])
         if card_one > card_zero:
@@ -706,7 +707,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
         elif card_one < card_zero:
             return 1
         else:
-            # both hands are basically same
+            # both hands are same
             return 0
     # if first player has straight flush but second does not
     if best_zero is None and best_one is not None:
@@ -718,17 +719,28 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     """
     quads
     """
+    # check if both hands have a quad
     best_zero = find_four_of_a_kind(hole_cards_zero, community)
     best_one = find_four_of_a_kind(hole_cards_one, community)
     if best_zero is not None and best_one is not None:
-        card_zero = get_ordinal(best_zero[1][0])
-        card_one = get_ordinal(best_one[1][0])
+        # find what quad it is
+        card_zero = get_ordinal(best_zero[0][0])
+        card_one = get_ordinal(best_one[0][0])
         if card_one > card_zero:
             return -1
         elif card_one < card_zero:
             return 1
         else:
-            return 0
+            # find kicker
+            card_zero = get_ordinal(best_zero[1][0])
+            card_one = get_ordinal(best_one[1][0])
+            if card_one > card_zero:
+                return -1
+            elif card_one < card_zero:
+                return 1
+            else:
+                # both hands are same
+                return 0
     if best_zero is None and best_one is not None:
         return -1
     elif best_one is None and best_zero is not None:
@@ -740,6 +752,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     best_zero = find_full_house(hole_cards_zero, community)
     best_one = find_full_house(hole_cards_one, community)
     if best_zero is not None and best_one is not None:
+        # check the value of triple in full house
         card_zero = get_ordinal(best_zero[0][0])
         card_one = get_ordinal(best_one[0][0])
         if card_one > card_zero:
@@ -747,6 +760,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
         elif card_one < card_zero:
             return 1
         else:
+            # then check value of pair
             card_zero = get_ordinal(best_zero[1][0])
             card_one = get_ordinal(best_one[1][0])
             if card_one > card_zero:
@@ -754,6 +768,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
             elif card_one < card_zero:
                 return 1
             else:
+                # both hands are same
                 return 0
     if best_zero is None and best_one is not None:
         return -1
@@ -766,6 +781,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     best_zero = find_flush(hole_cards_zero, community)
     best_one = find_flush(hole_cards_one, community)
     if best_zero is not None and best_one is not None:
+        # find highest card in flush
         card_zero = get_ordinal(best_zero[0])
         card_one = get_ordinal(best_one[0])
         if card_one > card_zero:
@@ -785,6 +801,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     best_zero = find_straight(hole_cards_zero, community)
     best_one = find_straight(hole_cards_one, community)
     if best_zero is not None and best_one is not None:
+        # find how high straight is
         card_zero = get_ordinal(best_zero[0])
         card_one = get_ordinal(best_one[0])
         if card_one > card_zero:
@@ -804,6 +821,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
     best_zero = find_three_of_a_kind(hole_cards_zero, community)
     best_one = find_three_of_a_kind(hole_cards_one, community)
     if best_zero is not None and best_one is not None:
+        # find what triple is
         card_zero = get_ordinal(best_zero[0][0])
         card_one = get_ordinal(best_one[0][0])
         if card_one > card_zero:
@@ -811,6 +829,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
         elif card_one < card_zero:
             return 1
         else:
+            # first kicker
             card_zero = get_ordinal(best_zero[1][0])
             card_one = get_ordinal(best_one[1][0])
             if card_one > card_zero:
@@ -818,6 +837,7 @@ def comparator(hole_cards_zero, hole_cards_one, community):
             elif card_one < card_zero:
                 return 1
             else:
+                # second kicker
                 card_zero = get_ordinal(best_zero[1][1])
                 card_one = get_ordinal(best_one[1][1])
                 if card_one > card_zero:
